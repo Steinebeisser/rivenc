@@ -17,12 +17,6 @@ typedef enum {
         NODE_IDENTIFIER,
 } Node_Type;
 
-typedef enum {
-        VAR_TYPE_INT,
-        VAR_TYPE_UINT,
-        VAR_TYPE_FLOAT
-} Variable_Type;
-
 typedef struct Ast_Node {
         Node_Type type;
         Location location;
@@ -33,7 +27,7 @@ typedef struct Ast_Node {
                         struct Ast_Node **children;
                 } program;
                 struct {
-                        Variable_Type type;
+                        char *type_name;
                         struct Ast_Node *identifier;
                         struct Ast_Node *initializer;
                 } variable_declaration;
@@ -69,7 +63,5 @@ void alloc_error();
 char *node_type_name(Node_Type type);
 
 void print_ast(Ast_Node *node);
-
-char *variable_type_name(Variable_Type type);
 
 #endif //AST_H

@@ -54,16 +54,13 @@ Ast_Node *create_variable_declaration_node(char *type_name, Ast_Node *identifier
                 .type = NODE_VARIABLE_DECLARATION,
                 .data = {
                         .variable_declaration = {
+                                .type_name = type_name,
                                 .identifier = identifier,
                                 .initializer = initializer
                         }
                 },
                 .location = loc,
         };
-
-        if (strcmp(type_name, "int") == 0 ) { node->type = VAR_TYPE_INT; }
-        else if (strcmp(type_name, "uint") == 0) { node->type = VAR_TYPE_UINT; }
-        else if (strcmp(type_name, "float") == 0) { node->type = VAR_TYPE_FLOAT; }
 
         if (initializer) {
                 initializer->parent = node;
@@ -174,7 +171,7 @@ void print_node_recursive(Ast_Node *node, size_t indent_level) {
                         }
                 } break;
                 case NODE_VARIABLE_DECLARATION: {
-                        printf("VARIABLE DECLARATION: %s\n", variable_type_name(node->data.variable_declaration.type));
+                        printf("VARIABLE DECLARATION: %s\n", node->data.variable_declaration.type_name);
                         print_node_recursive(node->data.variable_declaration.identifier, indent_level + 1);
                         if (node->data.variable_declaration.initializer) {
                                 print_node_recursive(node->data.variable_declaration.initializer, indent_level + 1);
@@ -195,15 +192,4 @@ void print_node_recursive(Ast_Node *node, size_t indent_level) {
                         printf("UNKNOWN TYPE\n");
                 }
         }
-}
-
-char *variable_type_name(Variable_Type type) {
-       switch (type) {
-               case VAR_TYPE_INT: { return "Int"; }
-               case VAR_TYPE_UINT: { return "UInt"; }
-               case VAR_TYPE_FLOAT: { return "Float"; }
-               default: {
-                       return "Unknown Type";
-               }
-       }
 }
