@@ -35,14 +35,10 @@ int main(int argc, char**argv) {
 
         Parser parser = parser_create(tokens, token_count);
 
-        bool successful_parse = parser_parse(&parser);
+        Ast_Node program_node = parser_parse(&parser);
 
-        if (successful_parse) {
-                printf("Parsed successful\n");
-        } else {
-                fprintf(stderr, "Failed to parse tokens");
-                exit(420);
-        }
+        print_ast(&program_node);
+
         printf("EOF");
         return 0;
 }

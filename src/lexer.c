@@ -11,7 +11,7 @@
 #include <string.h>
 
 char *raw_keywords[] = {
-        "if", "while", "where", "int", "printf"
+        "if", "while", "where", "int", "printf", "float"
 };
 
 #define KEYWORD_AMOUNT sizeof(raw_keywords) / sizeof(raw_keywords[0])
@@ -101,8 +101,8 @@ Token lexer_next(Lexer *l) {
         Token token = {
                 .text = &l->content[l->cursor],
                 .location = {
-                        .row = l->line,
-                        .col = l->cursor - l->bol
+                        .row = l->line +1,
+                        .col = l->cursor - l->bol + 1
                     }
         };
 
@@ -182,10 +182,6 @@ Token lexer_next(Lexer *l) {
                         }
                         l->cursor++;
                         token.text_len++;
-                }
-                if (!is_string_start_end(l->content[l->cursor])) {
-                        fprintf(stderr, "Unclosed string at line %zu, col %zu\n", token.location.row, token.location.col);
-                        exit(69);
                 }
                 l->cursor += 1;
                 token.text_len += 1;
