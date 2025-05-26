@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *valid_types[] = {
+const char *valid_types[] = {
         "int", "uint", "float"
 };
 
@@ -180,28 +180,33 @@ Ast_Node *parse_term_prime(Parser *p, Ast_Node *left) {
 }
 
 Ast_Node *parse_factor(Parser *p) {
-        // number | [expression]
-        if (p->current.kind != TOKEN_NUMBER) {
-                return parse_expression(p);
+        // number | identifier | [expression]
+        if (p->current.kind == TOKEN_NUMBER) {
+                char buffer[p->current.text_len + 1];
+
+                memcpy(buffer, p->current.text, p->current.text_len);
+                buffer[p->current.text_len] = '\0';
+
+                char *endptr = NULL;
+                size_t value = strtol(buffer, &endptr, 10);
+
+                if (endptr != buffer + p->current.text_len) {
+                        fprintf(stderr, "Invalid number: '%.*s'\n",
+                                (int)p->current.text_len, p->current.text);
+                        exit(1);
+                }
+
+                Ast_Node *number_node = create_number_node(value, p->current.location);
+                move_forward(p);
+                return number_node;
         }
-
-        char buffer[p->current.text_len + 1];
-
-        memcpy(buffer, p->current.text, p->current.text_len);
-        buffer[p->current.text_len] = '\0';
-
-        char *endptr = NULL;
-        size_t value = strtol(buffer, &endptr, 10);
-
-        if (endptr != buffer + p->current.text_len) {
-                fprintf(stderr, "Invalid number: '%.*s'\n",
-                        (int)p->current.text_len, p->current.text);
-                exit(1);
+        if (p->current.kind == TOKEN_IDENTIFIER) {
+                char *identifier_name = get_current_text(p);
+                Ast_Node *identifier_node = create_identifier_node(identifier_name, p->current.location);
+                move_forward(p);
+                return identifier_node;
         }
-
-        Ast_Node *number_node = create_number_node(value, p->current.location);
-        move_forward(p);
-        return number_node;
+        return parse_expression(p);
 }
 
 bool is_type_keyword(Token *t) {

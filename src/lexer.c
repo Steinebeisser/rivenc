@@ -11,7 +11,7 @@
 #include <string.h>
 
 char *raw_keywords[] = {
-        "if", "while", "where", "int", "printf", "float"
+        "if", "while", "where", "int", "printf", "float", "uint"
 };
 
 #define KEYWORD_AMOUNT sizeof(raw_keywords) / sizeof(raw_keywords[0])

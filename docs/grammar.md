@@ -16,6 +16,6 @@ $$
 \\\\
 [\text{factor}] &\to \text{number} \mid ([\text{expression}])
 \\\\
-[\text{type}] &\to \text{int} \mid \text{uint}
+[\text{type}] &\to \text{int} \mid \text{identifier} \mid \text{uint}
 \end{align*}
 $$

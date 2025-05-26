@@ -8,6 +8,6 @@ $$
 \\
 [\text{term'}] &\to * [\text{factor}]~[\text{term'}] \mid / [\text{factor}]~[\text{term'}] \mid \epsilon
 \\\\
-[\text{factor}] &\to \text{number} \mid ([\text{expression}])
+[\text{factor}] &\to \text{number} \mid \text{identifier} \mid ([\text{expression}])
 \end{align*}
 $$

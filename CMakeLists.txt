@@ -11,4 +11,6 @@ add_executable(rivenc rivenc.c
         src/parser.c
         src/parser.h
         src/ast.c
-        src/ast.h)
+        src/ast.h
+        src/semantic.c
+        src/semantic.h)

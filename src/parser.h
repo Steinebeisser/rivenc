@@ -35,5 +35,4 @@ Ast_Node *parse_expression_prime(Parser *p, Ast_Node *left);
 Ast_Node *parse_term(Parser *p);
 Ast_Node *parse_term_prime(Parser *p, Ast_Node *left);
 Ast_Node *parse_factor(Parser *p);
-
 #endif //PARSER_H
