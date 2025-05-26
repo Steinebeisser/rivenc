@@ -4,6 +4,7 @@
 
 #include "src/lexer.h"
 #include "src/parser.h"
+#include "src/semantic.h"
 #include "src/utils.h"
 int main(int argc, char**argv) {
         if (argc < 2) {
@@ -38,6 +39,14 @@ int main(int argc, char**argv) {
         Ast_Node program_node = parser_parse(&parser);
 
         print_ast(&program_node);
+
+        Semantic_Context *semantic_context = create_semantic();
+        if (!semantic_context) {
+                fprintf(stderr, "No Semantic Context passed\n");
+                exit(1);
+        }
+
+        analyse_semantic(&program_node, semantic_context);
 
         printf("EOF");
         return 0;
