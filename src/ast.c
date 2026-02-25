@@ -134,6 +134,27 @@ bool add_child_to_program(Ast_Node *program_node, Ast_Node *child) {
         return true;
 }
 
+Ast_Node *create_print_expression_node(Location loc) {
+        Ast_Node *node = malloc(sizeof(Ast_Node));
+        if (!node) {
+                alloc_error();
+                return NULL;
+        }
+
+        *node = (Ast_Node) {
+                .type = NODE_PRINT_EXPRESSION,
+                .data = {
+                        .print_expression = {
+                                .children = NULL,
+                                .count = 0,
+                        },
+                },
+                .location = loc,
+        };
+        
+        return node;
+}
+
 bool free_node(Ast_Node *node) {
 
 
@@ -168,7 +189,7 @@ void print_node_recursive(Ast_Node *node, size_t indent_level) {
 
         switch (node->type) {
                 case NODE_PROGRAM: {
-                        printf("PROGRAM NODE (%llu children)\n", node->data.program.count);
+                        printf("PROGRAM NODE (%lu children)\n", node->data.program.count);
                         for (size_t i = 0; i < node->data.program.count; ++i) {
                                 print_node_recursive(node->data.program.children[i], indent_level + 1);
                         }
@@ -187,7 +208,7 @@ void print_node_recursive(Ast_Node *node, size_t indent_level) {
                         print_node_recursive(node->data.binary_expression.right, indent_level + 1);
                 } break;
                 case NODE_NUMBER: {
-                        printf("NUMBER: %llu\n", node->data.number.value);
+                        printf("NUMBER: %lu\n", node->data.number.value);
                 } break;
                 case NODE_IDENTIFIER: {
                         printf("IDENTIFIER (%s)\n", node->data.identifier.name);

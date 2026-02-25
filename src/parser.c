@@ -46,7 +46,7 @@ Ast_Node parser_parse(Parser *p) {
 
 bool expect(Parser *p, Token_Kind kind) {
         if (p->current.kind != kind) {
-                fprintf(stderr, "Expected %s but got %s, at Position: '%llu'|'%llu', '%.*s'\n", token_kind_name(kind), token_kind_name(p->current.kind), p->current.location.row, p->current.location.col, (int) p->current.text_len, p->current.text);
+                fprintf(stderr, "Expected %s but got %s, at Position: '%lu'|'%lu', '%.*s'\n", token_kind_name(kind), token_kind_name(p->current.kind), p->current.location.row, p->current.location.col, (int) p->current.text_len, p->current.text);
                 exit(1);
         }
         return true;
@@ -93,7 +93,7 @@ Ast_Node *parse_statement_tail(Parser *p, char *type_name, Ast_Node *identifier)
                 Ast_Node *initializer = parse_expression(p);
                 expect(p, TOKEN_DELIMITER);
                 if (p->current.text[0] != ';') {
-                        fprintf(stderr, "Expected ';' after expression at %llu|%llu\n", p->current.location.row, p->current.location.col);
+                        fprintf(stderr, "Expected ';' after expression at %lu|%lu\n", p->current.location.row, p->current.location.col);
                         exit(1);
                 }
                 move_forward(p);
@@ -105,7 +105,7 @@ Ast_Node *parse_statement_tail(Parser *p, char *type_name, Ast_Node *identifier)
         //        parse_parameter_list(p);
         //        expect(p, TOKEN_DELIMITER);
         //        if (p->current.text_len != 1 || p->current.text[0] != ')') {
-        //                fprintf(stderr, "Expected ')' after parameter list at %llu|%llu\n", p->current.location.row, p->current.location.col);
+        //                fprintf(stderr, "Expected ')' after parameter list at %lu|%lu\n", p->current.location.row, p->current.location.col);
         //                exit(1);
         //        }
         //        move_forward(p);
@@ -114,7 +114,7 @@ Ast_Node *parse_statement_tail(Parser *p, char *type_name, Ast_Node *identifier)
         //        return;
         //}
 
-        fprintf(stderr, "Expected '=', ';', or '(' after identifier at %llu|%llu, but got '%.*s'\n",
+        fprintf(stderr, "Expected '=', ';', or '(' after identifier at %lu|%lu, but got '%.*s'\n",
                 p->current.location.row, p->current.location.col,
                 (int)p->current.text_len, p->current.text);
         exit(1);
@@ -226,7 +226,7 @@ char *parse_type(Parser *p) {
         expect(p, TOKEN_KEYWORD);
 
         if (!is_type_keyword(&p->current)) {
-                fprintf(stderr, "Expected a type keyword, got '%.*s' at Position: %llu|%llu, %.*s\n",
+                fprintf(stderr, "Expected a type keyword, got '%.*s' at Position: %lu|%lu, %.*s\n",
                         (int)p->current.text_len, p->current.text,
                         p->current.location.row, p->current.location.col,
                         (int) p->current.text_len, p->current.text);

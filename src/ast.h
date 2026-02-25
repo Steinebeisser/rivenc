@@ -15,6 +15,7 @@ typedef enum {
         NODE_BINARY_EXPRESSION,
         NODE_NUMBER,
         NODE_IDENTIFIER,
+        NODE_PRINT_EXPRESSION,
 } Node_Type;
 
 typedef enum {
@@ -51,6 +52,11 @@ typedef struct Ast_Node {
                 struct {
                         char *name;
                 } identifier;
+                
+                struct {
+                        size_t count;
+                        struct Ast_Node **children;
+                } print_expression;
         } data;
 } Ast_Node;
 
@@ -59,6 +65,7 @@ Ast_Node *create_identifier_node(char *identifier_name, Location loc);
 Ast_Node *create_variable_declaration_node(char *type_name, Ast_Node *identifier, Ast_Node *initializer, Location loc);
 Ast_Node *create_binary_expression_node(char *operator, Ast_Node *left, Ast_Node *right, Location loc);
 Ast_Node *create_number_node(size_t value, Location loc);
+Ast_Node *create_print_expression_node(Location loc);
 
 bool add_child_to_program(Ast_Node *program_node, Ast_Node *child);
 

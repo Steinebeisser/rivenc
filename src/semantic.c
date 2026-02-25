@@ -149,10 +149,10 @@ bool analyse_variable_declaration(Ast_Node * node, Semantic_Context *semantic_co
         Symbol *declared_symbol;
         if ((declared_symbol = find_symbol(type_identifier, semantic_context)) != NULL) {
                 if (declared_symbol->type != node->data.variable_declaration.type) {
-                        fprintf(stderr, "Tried to redeclare `%s` with different type (old: %s (Line: %d, Col: %d), new %s (Line: %llu, Col %llu))\n", type_identifier, variable_type_name(declared_symbol->type), 1, 1, variable_type_name(node->data.variable_declaration.type), node->location.row, node->location.col);
+                        fprintf(stderr, "Tried to redeclare `%s` with different type (old: %s (Line: %d, Col: %d), new %s (Line: %lu, Col %lu))\n", type_identifier, variable_type_name(declared_symbol->type), 1, 1, variable_type_name(node->data.variable_declaration.type), node->location.row, node->location.col);
                         exit(-1);
                 }
-                fprintf(stderr, "WARNIGN: redeclared `%s` of Type `%s` at Line %llu Col %llu, initally declated at %llu %llu\n", type_identifier, variable_type_name(declared_symbol->type), identifier_node->location.row, identifier_node->location.col, 1, 1);
+                fprintf(stderr, "WARNIGN: redeclared `%s` of Type `%s` at Line %lu Col %lu, initally declated at %d %d\n", type_identifier, variable_type_name(declared_symbol->type), identifier_node->location.row, identifier_node->location.col, 1, 1);
                 // for now exit, later go through, maybe
                 exit(1);
         }
@@ -234,7 +234,7 @@ bool analyse_identifier(Ast_Node * node, Semantic_Context *semantic_context) {
         printf("ANALYSING IDENTIFIER\n");
         Symbol *symbol = find_symbol(node->data.identifier.name, semantic_context);
         if (!symbol) {
-                fprintf(stderr, "Undeclared identifier '%s' at Line %llu Col %llu\n",
+                fprintf(stderr, "Undeclared identifier '%s' at Line %lu Col %lu\n",
                         node->data.identifier.name,
                         node->location.row, node->location.col);
                 return false;

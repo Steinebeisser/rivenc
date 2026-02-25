@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "src/asm.h"
 #include "src/lexer.h"
 #include "src/parser.h"
 #include "src/semantic.h"
@@ -14,7 +15,7 @@ int main(int argc, char**argv) {
 
         printf("Filename: %s\n", argv[1]);
         File_Information *fi = read_file(argv[1]);
-        printf("File length: %llu\n", fi->content_length);
+        printf("File length: %lu\n", fi->content_length);
         //printf("SOURCE: %s\n", fi->content);
 
         char *test = "test test test 123\nmehr test leine 2";
@@ -32,7 +33,7 @@ int main(int argc, char**argv) {
         size_t token_count = 0;
         Token *tokens = collect_tokens(&lexer, &token_count);
 
-        printf("Parsed %llu tokens\n", token_count);
+        printf("Parsed %lu tokens\n", token_count);
 
         Parser parser = parser_create(tokens, token_count);
 
@@ -45,8 +46,10 @@ int main(int argc, char**argv) {
                 fprintf(stderr, "No Semantic Context passed\n");
                 exit(1);
         }
-
         analyse_semantic(&program_node, semantic_context);
+
+        char *filepath = generate_asm(&program_node);
+        compile_asm_with_fasm(filepath);
 
         printf("EOF");
         return 0;

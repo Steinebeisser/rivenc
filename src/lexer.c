@@ -11,7 +11,7 @@
 #include <string.h>
 
 char *raw_keywords[] = {
-        "if", "while", "where", "int", "printf", "float", "uint"
+        "if", "while", "where", "int", "print", "float", "uint"
 };
 
 #define KEYWORD_AMOUNT sizeof(raw_keywords) / sizeof(raw_keywords[0])
@@ -228,13 +228,13 @@ Token lexer_next(Lexer *l) {
         //                token.text_len++;
         //        }
         //        if (!is_string_start_end(token.text[token.text_len])) {
-        //                fprintf(stderr, "Unclosed string starting at line %llu, col %llu", token.location.row, token.location.col);
+        //                fprintf(stderr, "Unclosed string starting at line %lu, col %lu", token.location.row, token.location.col);
         //                exit(69);
         //        }
         //        return token;
         //}
 
-        fprintf(stderr, "UNIIMPLEMENTED, Char: %c, at position: %llu\n", l->content[l->cursor], l->cursor);
+        fprintf(stderr, "UNIIMPLEMENTED, Char: %c, at position: %lu\n", l->content[l->cursor], l->cursor);
         exit(420);
 }
 
@@ -267,7 +267,7 @@ Token *collect_tokens(Lexer *lexer, size_t *out_count) {
         while (1) {
                 Token token = lexer_next(lexer);
 
-                fprintf(stderr, "%.*s (%s)\n", (int) token.text_len, token.text, token_kind_name(token.kind));
+                //fprintf(stderr, "%.*s (%s)\n", (int) token.text_len, token.text, token_kind_name(token.kind));
                 if (count >= capacity) {
                         capacity *= 2;
                         Token *more_tokens = realloc(tokens, capacity * sizeof(Token));
